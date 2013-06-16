@@ -1,0 +1,24 @@
+name: testplugin
+main: com.kittykonnection.minecraft.testplugin.testplugin
+version: 1.0
+
+commands:
+  ignite:
+    description: Ignite a player.
+    usage: /<command> [player]
+  stone:
+    description: Stone a player.
+    usage: /<command> [player]
+    permission: <plugin name>.stone
+    permission-message: You don't have <permission>
+  trench:
+    description: Dig a trench
+    usage: /<command> [player]
+    permission: <plugin name>.trench
+    permission-message: You don't have <permission>
+  disco:
+    description: Disco Time!
+    usage: /<command>
+    permission: <plugin name>.disco
+    permission-message: You don't have <permission>
+    
