@@ -50,17 +50,26 @@ public final class testplugin extends JavaPlugin {
 	
 	    
 	    public int runcount;
+	    public int discoFlag = 0;
 	    
 	    public void discoBlocks(){
 	        this.getServer().getScheduler().scheduleSyncDelayedTask(this, new Runnable() {
 	            @Override
 	            public void run() {
-	            	int x = 300;
-	            	int y = 62;
-	            	int z = 100;
 	            	
-	            	int partlen = 3;
-	            	int parts = 6;
+	            	if (discoFlag == 0) {
+	            		return;
+	            	}
+	            	
+	            	int x1 = 295;
+	            	int y1 = 62;
+	            	int z1 = 100;
+	            	int x2 = 305;
+	            	int y2 = 66;
+	            	int z2 = 118;
+	            	
+	            	int partlen = 2;
+	            	int parts = (int) ((z2-z1)/partlen);
 
 	            	if (runcount >= (parts*partlen)-1) {
 	            		runcount = -1;
@@ -69,15 +78,18 @@ public final class testplugin extends JavaPlugin {
 	            	//getLogger().info("Method called " + runcount + " yo!");
 	            	
 	            	World w = Bukkit.getServer().getWorld("world");
-	            	Block b = w.getBlockAt(x, y, z);
+	            	Block b;
             		for (int part = 0; part < parts; part++) {
-            			for (int newX = -5; newX <= 5; newX++) {
-            				for (int newY = 0; newY < 5; newY++) {
+            			int color = part % 16;
+            			for (int newX = 0; newX <= x2-x1; newX++) {
+            				for (int newY = 0; newY <= y2-y1; newY++) {
             					
-            					for (int newZ = 0; newZ <= 2; newZ++) {
-            						b = w.getBlockAt(x + newX, y + newY, z + ((newZ + (part*partlen) + runcount) % (parts * partlen)) + 1);
-            						b.setTypeIdAndData(35, (byte)part, true);
-            						//	b.setData(DyeColor.RED.getData());
+            					for (int newZ = 0; newZ <= partlen - 1; newZ++) {
+            						b = w.getBlockAt(x1 + newX, y1 + newY, z1 + ((newZ + (part*partlen) + runcount) % (parts * partlen)) + 1);
+            						if (b.getTypeId() == 35) {
+            							b.setTypeIdAndData(35, (byte)color, true);
+            							//b.setData(DyeColor.RED.getData());
+            						}
             					}
             				}
 	            		}
@@ -86,7 +98,7 @@ public final class testplugin extends JavaPlugin {
 	            	
 	                discoBlocks();
 	            }
-	        }, 10); // moo *20L 
+	        }, 10); // *20L 
 	    }
 	    
 	    
@@ -97,6 +109,15 @@ public final class testplugin extends JavaPlugin {
 	    	if (cmd.getName().equalsIgnoreCase("basic")){ // If the player typed /basic then do the following...
 	    		// do something...
 	    		return true;
+	    	} else if (cmd.getName().equalsIgnoreCase("disco")) {
+	    		if (discoFlag == 1) {
+	    			discoFlag = 0;
+	    			sender.sendMessage("Disco OFF!");
+	    		} else {
+	    			discoFlag = 1;
+	    			sender.sendMessage("Disco ON!");
+	    			discoBlocks();
+	    		}
 	    	} else if (cmd.getName().equalsIgnoreCase("moo")) {
 
 	    		if (!(sender instanceof Player)) {
