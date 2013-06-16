@@ -86,7 +86,7 @@ public final class testplugin extends JavaPlugin {
 	            	
 	                discoBlocks();
 	            }
-	        }, 10); // * 20L
+	        }, 10); // moo *20L 
 	    }
 	    
 	    
